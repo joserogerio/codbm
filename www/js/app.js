@@ -24,6 +24,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
          DB.init();    
     
          $location.path('/app/home');    
+         console.log('teste');
       }
   });
 })
@@ -39,7 +40,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('app.local', {
-      url: "/new_exercise",
+      url: "/local",
       views: {
         'menuContent' :{
           templateUrl: "templates/local.html",
