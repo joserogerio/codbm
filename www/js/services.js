@@ -110,10 +110,9 @@ angular.module('starter.services', ['starter.config'])
 	.factory('LocalService', function($http, DB, APP){
 		var self = this;
 		
-
-		
 		self.all = function() {
-			var sql = "SELECT id, name, strftime('%d/%m/%Y',datetime(ex_date_time/1000, 'unixepoch')) AS ex_date_time, "+
+         var output = [];
+			/*var sql = "SELECT id, name, strftime('%d/%m/%Y',datetime(ex_date_time/1000, 'unixepoch')) AS ex_date_time, "+
 					  "strftime('%H:%M:%S',datetime(duration/1000,'unixepoch')) AS duration, "+
 					  "strftime('%M:%S', datetime(pace/1000,'unixepoch')) AS pace, "+
 					  "elevation_gain, round(distance, 2) AS distance, round(speed * 3.6, 2) AS speed, "+
@@ -124,7 +123,18 @@ angular.module('starter.services', ['starter.config'])
 			return DB.query(sql,[APP.user_id])
 			.then(function(result){
 				return DB.fetchAll(result);
-			});
+			});*/
+         for(i=1; i <= 10; i++){
+            for(j=1; j <= 10; j++){
+               var local= {};
+               local.id= i * 10000;
+               local.name= "local_"+i+""+(j-1);
+               local.code= i+""+j+ (j*1000);
+               local.type_id= i;
+               output.push(local);               
+            }
+         }
+         return output;
 		};
 		
 		self.getById = function(id, all_fields) {
@@ -151,7 +161,19 @@ angular.module('starter.services', ['starter.config'])
 			});
 		};
 
-		
+		self.getByTypeId = function(id){
+         var output = [];
+         for(i=1; i < 10; i++){
+            var local = {};
+            local.id = i * 1000;
+            local.name= "local_"+id+""+(i-1);
+            local.code= id+""+(i-1) * (1000);
+            local.type_id= i;
+            output.push(local);            
+         }
+         return output
+      }
+      
 		self.render = function() {			
 			//$("#spinner").show();
 			var config = JSON.parse(localStorage.getItem("config"));
@@ -174,6 +196,36 @@ angular.module('starter.services', ['starter.config'])
 		
 		return self;
 	})
+   
+   .factory('TypeService', function(DB, APP){
+      var self= this;
+      
+      self.all= function(){
+         var output = [];
+			/*var sql = "SELECT id, name, strftime('%d/%m/%Y',datetime(ex_date_time/1000, 'unixepoch')) AS ex_date_time, "+
+					  "strftime('%H:%M:%S',datetime(duration/1000,'unixepoch')) AS duration, "+
+					  "strftime('%M:%S', datetime(pace/1000,'unixepoch')) AS pace, "+
+					  "elevation_gain, round(distance, 2) AS distance, round(speed * 3.6, 2) AS speed, "+
+					  "calories, round(score) AS score, cadence, ex_date_time AS ordered "+
+			          "FROM exercises "+
+					  "WHERE person_id = ? "+
+					  "ORDER BY ordered DESC";	
+			return DB.query(sql,[APP.user_id])
+			.then(function(result){
+				return DB.fetchAll(result);
+			});*/
+         for(i=1; i <= 10; i++){
+            var type= {};
+            type.id= i;
+            type.name= "type_"+i;
+            type.code= i * 1000;
+            output.push(type);
+         }
+         return output;         
+      }
+      
+      return self;
+   })
    
    .factory('TmpService', function(){
       var self = this;
