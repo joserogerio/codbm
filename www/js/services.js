@@ -50,7 +50,7 @@ angular.module('starter.services', ['starter.config'])
          self.populate();
          
          //TMP
-         TmpService.generateHash(5);
+         TmpService.generateHash(10);
 		};
 	 
       self.populate = function(){
