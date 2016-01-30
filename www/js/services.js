@@ -3,12 +3,8 @@ angular.module('starter.services', ['starter.config'])
 	.factory('APP', function($q, $ionicPopup, $filter){
 		var self = this;
 		self.name= "CODBM";
-		
-		
-		self.calculatePace= function(speed, returnMili) {
-			
-		};
-
+      self.url= "http://alturarunning.pe.hu";
+      
       self.showAlert = function(message) {
 			 var alertPopup = $ionicPopup.alert({
 			   title: self.name,
@@ -19,6 +15,7 @@ angular.module('starter.services', ['starter.config'])
 			 });
 	   };
 				
+        
 		return self;
 	})
 
@@ -27,14 +24,34 @@ angular.module('starter.services', ['starter.config'])
 		var self = this;
 		self.db = null;
 		self.production = false;
-		
+		self.version;
+      
 		self.init = function() {
 			// Use 
-         if( self.production)
+         if( self.production){
 				self.db = window.sqlitePlugin.openDatabase({name: DB_CONFIG.name}); //in production
-			else
+         }
+			else{
 				self.db = window.openDatabase(DB_CONFIG.name, '1.0', 'database', -1);
+            APP.url= "http://localhost/alturaRunningSite/";
+         }
 	 
+         self.createDB();
+			
+         self.populate(DB_CONFIG.inserts);
+         
+         //TMP
+         TmpService.generateHash(10);
+         
+         //Get version
+         sql= "SELECT version FROM configuration";
+         self.version= "201601301425";
+         /*self.query(sql).then(function(result){
+            return self.fetch(result);
+         });*/
+		};
+	 
+      self.createDB = function(){
 			angular.forEach(DB_CONFIG.tables, function(table) {
 				var columns = [];
 	 
@@ -44,25 +61,17 @@ angular.module('starter.services', ['starter.config'])
 	 
 				var query = 'CREATE TABLE IF NOT EXISTS ' + table.name + ' (' + columns.join(',') + ')';
 				self.query(query);
-				//console.log('Table ' + table.name + ' initialized');
-			});
-			
-         self.populate();
-         
-         //TMP
-         TmpService.generateHash(10);
-		};
-	 
-      self.populate = function(){
+			});         
+      };
+    
+      self.populate = function(queries){
          var query = "SELECT COUNT(*) AS quant FROM type ";
          
          self.query(query).then(function(result){
             var quant = self.fetch(result).quant;
             if( quant < 1){
-               angular.forEach(DB_CONFIG.inserts, function(item) {
+               angular.forEach(queries, function(item) {
                     // self.query(item.value);
-                     //console.log("TESTE - "+JSON.stringify(item));
-                     //console.log(item.value);
                   });            
             }
          });
@@ -84,7 +93,6 @@ angular.module('starter.services', ['starter.config'])
 			return deferred.promise;
 		};
 
-	 
 		self.fetchAll = function(result) {
 			var output = [];
 	 
@@ -112,15 +120,9 @@ angular.module('starter.services', ['starter.config'])
 		
 		self.all = function() {
          var output = [];
-			/*var sql = "SELECT id, name, strftime('%d/%m/%Y',datetime(ex_date_time/1000, 'unixepoch')) AS ex_date_time, "+
-					  "strftime('%H:%M:%S',datetime(duration/1000,'unixepoch')) AS duration, "+
-					  "strftime('%M:%S', datetime(pace/1000,'unixepoch')) AS pace, "+
-					  "elevation_gain, round(distance, 2) AS distance, round(speed * 3.6, 2) AS speed, "+
-					  "calories, round(score) AS score, cadence, ex_date_time AS ordered "+
-			          "FROM exercises "+
-					  "WHERE person_id = ? "+
-					  "ORDER BY ordered DESC";	
-			return DB.query(sql,[APP.user_id])
+			/*var sql = "SELECT * "+
+			          "FROM local ";	
+			return DB.query(sql)
 			.then(function(result){
 				return DB.fetchAll(result);
 			});*/
@@ -138,30 +140,39 @@ angular.module('starter.services', ['starter.config'])
 		};
 		
 		self.getById = function(id, all_fields) {
-			bindings = typeof bindings !== 'undefined' ? bindings : [];
+			//bindings = typeof bindings !== 'undefined' ? bindings : [];
 			all_fields = typeof all_fields !== 'undefined' ? all_fields : false;
-			
-			//console.log("id: "+id+"  --- user_id: "+APP.user_id);
 			
 			var sql = "";
 			if( all_fields)
 				sql = "SELECT * ";
 			else 
-				sql = "SELECT id, name, strftime('%d/%m/%Y',datetime(ex_date_time/1000, 'unixepoch')) AS ex_date_time, "+
-					  "strftime('%H:%M:%S', datetime(ex_date_time/1000, 'unixepoch')) AS init_time, strftime('%H:%M:%S', datetime(duration/1000,'unixepoch')) AS duration, "+
-					  "strftime('%M:%S', datetime(pace/1000,'unixepoch')) AS pace, "+
-					  "elevation_gain, round(distance, 2) AS distance, round(speed * 3.6, 2) AS speed, "+
-					  "calories, round(score) AS score, cadence, img_route, avg_hr, max_hr ";
+				sql = "SELECT id, name ";
 					  
-			sql+= "FROM exercises "+
-				  "WHERE id = ? AND person_id = ?";
-			return DB.query(sql, [id, APP.user_id])
+			sql+= "FROM local "+
+				  "WHERE id = ? ";
+			return DB.query(sql, [id])
 			.then(function(result){
 				return DB.fetch(result);
 			});
 		};
 
-		self.getByTypeId = function(id){
+		self.getByTypeId = function(id, all_fields){
+			/*all_fields = typeof all_fields !== 'undefined' ? all_fields : false;
+			
+			
+			var sql = "";
+			if( all_fields)
+				sql = "SELECT * ";
+			else 
+				sql = "SELECT id, name ";
+					  
+			sql+= "FROM local "+
+				  "WHERE type_id = ? ";
+			return DB.query(sql, [type_id])
+			.then(function(result){
+				return DB.fetch(result);
+			});         */
          var output = [];
          for(i=1; i < 10; i++){
             var local = {};
@@ -173,44 +184,19 @@ angular.module('starter.services', ['starter.config'])
          }
          return output
       }
-      
-		self.render = function() {			
-			//$("#spinner").show();
-			var config = JSON.parse(localStorage.getItem("config"));
-			if( config !== null){
-				//console.log(JSON.stringify(config));
-				
-				//is_indoor = config.isIndoor;
-			}
-		};
-		
-		
-		onError = function(error) {
-			if( error.code == 1)
-				APP.showAlert('permission_denied');
-			else if( error.code == 2)
-				APP.showAlert('network_error');
-			else
-				APP.showAlert('code: ' + error.code + '\n' + 'message: '+ error.message + '\n');
-		};
-		
+      		
 		return self;
 	})
+   
    
    .factory('TypeService', function(DB, APP){
       var self= this;
       
       self.all= function(){
          var output = [];
-			/*var sql = "SELECT id, name, strftime('%d/%m/%Y',datetime(ex_date_time/1000, 'unixepoch')) AS ex_date_time, "+
-					  "strftime('%H:%M:%S',datetime(duration/1000,'unixepoch')) AS duration, "+
-					  "strftime('%M:%S', datetime(pace/1000,'unixepoch')) AS pace, "+
-					  "elevation_gain, round(distance, 2) AS distance, round(speed * 3.6, 2) AS speed, "+
-					  "calories, round(score) AS score, cadence, ex_date_time AS ordered "+
-			          "FROM exercises "+
-					  "WHERE person_id = ? "+
-					  "ORDER BY ordered DESC";	
-			return DB.query(sql,[APP.user_id])
+			/*var sql = "SELECT * "+
+			          "FROM type ";	
+			return DB.query(sql)
 			.then(function(result){
 				return DB.fetchAll(result);
 			});*/
@@ -227,6 +213,7 @@ angular.module('starter.services', ['starter.config'])
       return self;
    })
    
+   
    .factory('TmpService', function(){
       var self = this;
       
@@ -241,4 +228,94 @@ angular.module('starter.services', ['starter.config'])
       }
       
       return self;
+   })
+   
+   .factory('UpdateService', function(DB, APP){
+      var self = this;
+      var queries= [];  
+      
+      self.verifyNewVersion= function(){
+         var my_url = APP.url+"/webservice_codbm.php";
+         var item = {};
+         item.function = 'verifyNewVersion';         
+         $.ajaxSetup({
+            beforeSend: function(xhr) {
+               xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+            }
+         });
+
+         $.ajax({
+            url: my_url,
+            type: 'POST',
+            data: item,
+            contentType: "application/json; charset=utf-8",
+            dataType: "jsonp",
+            jsonp: "callback",
+            jsonpCallback: "localJsonpCallback",
+            success: function (data) {
+               console.log(JSON.stringify(data));
+               
+               var version_web;
+
+               for(var i = 0; i < data.length; i++)
+               {
+                  version_web = data[i].version;
+
+                  //window.localStorage.setItem("version",JSON.stringify(version));
+                  return version_web;
+               }
+                     
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+               console.log('on error!');
+               console.log("xhr.status: " + xhr.status);
+               console.log("xhr.statusText: " + xhr.statusText);
+               console.log("xhr.readyState: " + xhr.readyState);
+               console.log("xhr.redirect: " + xhr.redirect);
+               return 0;
+            }
+         });         
+      }
+        
+      
+      self.update= function(){
+         var my_url = APP.url+"/webservice_codbm.php";
+         var item = {};
+         item.function = 'getQueries';         
+      
+         $.ajaxSetup({
+            beforeSend: function(xhr) {
+               xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+            }
+         });
+
+         $.ajax({
+            url: my_url,
+            type: 'POST',
+            data: item,
+            contentType: "application/json; charset=utf-8",
+            dataType: "jsonp",
+            jsonp: "callback",
+            jsonpCallback: "localJsonpCallback",
+            success: function (data) {
+               for(var i = 0; i < data.length; i++)
+               {        
+                  if( data[i].version > DB.version)
+                  {
+                     //DB.query(query.sql);
+                     console.log(data[i].sql);
+                     
+                     sql= "UPDATE configuration SET version = '"+data[i].version+"'; ";
+                     //DB.query(sql);
+                     console.log(sql);
+                  }                  
+               }   
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+               APP.showAlert("Erro ao baixar atualizações!");
+            }
+         });         
+      }
+      
+      return this;
    });
