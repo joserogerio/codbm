@@ -23,9 +23,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       if(!DB.production){
          DB.init();    
     
-         $location.path('/app/home');    
+             
          console.log('teste');
       }
+      $location.path('/app/home');
   });
 })
 

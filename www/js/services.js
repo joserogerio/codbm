@@ -41,14 +41,14 @@ angular.module('starter.services', ['starter.config'])
          self.populate(DB_CONFIG.inserts);
          
          //TMP
-         TmpService.generateHash(10);
+         //TmpService.generateHash(10);
          
          //Get version
          sql= "SELECT version FROM configuration";
-         self.version= "201601301425";
-         /*self.query(sql).then(function(result){
-            return self.fetch(result);
-         });*/
+         self.query(sql).then(function(result){
+            console.log(result.rows.item(0).version);
+            self.version= result.rows.item(0).version;
+         });
 		};
 	 
       self.createDB = function(){
@@ -71,8 +71,8 @@ angular.module('starter.services', ['starter.config'])
             var quant = self.fetch(result).quant;
             if( quant < 1){
                angular.forEach(queries, function(item) {
-                    // self.query(item.value);
-                  });            
+                  self.query(item.value);
+               });            
             }
          });
       };
@@ -119,24 +119,13 @@ angular.module('starter.services', ['starter.config'])
 		var self = this;
 		
 		self.all = function() {
-         var output = [];
-			/*var sql = "SELECT * "+
-			          "FROM local ";	
+			var sql = "SELECT * "+
+			          "FROM local "+
+                   "ORDER BY code";
 			return DB.query(sql)
 			.then(function(result){
 				return DB.fetchAll(result);
-			});*/
-         for(i=1; i <= 10; i++){
-            for(j=1; j <= 10; j++){
-               var local= {};
-               local.id= i * 10000;
-               local.name= "local_"+i+""+(j-1);
-               local.code= i+""+j+ (j*1000);
-               local.type_id= i;
-               output.push(local);               
-            }
-         }
-         return output;
+			});
 		};
 		
 		self.getById = function(id, all_fields) {
@@ -157,32 +146,24 @@ angular.module('starter.services', ['starter.config'])
 			});
 		};
 
-		self.getByTypeId = function(id, all_fields){
-			/*all_fields = typeof all_fields !== 'undefined' ? all_fields : false;
+		self.getByTypeId = function(type_id, all_fields){
+			all_fields = typeof all_fields !== 'undefined' ? all_fields : false;
 			
 			
 			var sql = "";
 			if( all_fields)
 				sql = "SELECT * ";
 			else 
-				sql = "SELECT id, name ";
+				sql = "SELECT * ";
 					  
 			sql+= "FROM local "+
-				  "WHERE type_id = ? ";
+				  "WHERE type_id = ? "+
+              "ORDER BY code ";
+         console.log(sql+type_id);
 			return DB.query(sql, [type_id])
 			.then(function(result){
-				return DB.fetch(result);
-			});         */
-         var output = [];
-         for(i=1; i < 10; i++){
-            var local = {};
-            local.id = i * 1000;
-            local.name= "local_"+id+""+(i-1);
-            local.code= id+""+(i-1) * (1000);
-            local.type_id= i;
-            output.push(local);            
-         }
-         return output
+				return DB.fetchAll(result);
+			});
       }
       		
 		return self;
@@ -193,21 +174,12 @@ angular.module('starter.services', ['starter.config'])
       var self= this;
       
       self.all= function(){
-         var output = [];
-			/*var sql = "SELECT * "+
+         var sql = "SELECT * "+
 			          "FROM type ";	
 			return DB.query(sql)
 			.then(function(result){
 				return DB.fetchAll(result);
-			});*/
-         for(i=1; i <= 10; i++){
-            var type= {};
-            type.id= i;
-            type.name= "type_"+i;
-            type.code= i * 1000;
-            output.push(type);
-         }
-         return output;         
+			});        
       }
       
       return self;
@@ -262,9 +234,8 @@ angular.module('starter.services', ['starter.config'])
                   version_web = data[i].version;
 
                   //window.localStorage.setItem("version",JSON.stringify(version));
-                  return version_web;
                }
-                     
+               return version_web;     
             },
             error: function (xhr, ajaxOptions, thrownError) {
                console.log('on error!');
@@ -302,11 +273,12 @@ angular.module('starter.services', ['starter.config'])
                {        
                   if( data[i].version > DB.version)
                   {
-                     //DB.query(query.sql);
+                     DB.query(data[i].sql);
                      console.log(data[i].sql);
                      
                      sql= "UPDATE configuration SET version = '"+data[i].version+"'; ";
-                     //DB.query(sql);
+                     DB.query(sql);
+                     DB.version = data[i].version;
                      console.log(sql);
                   }                  
                }   

@@ -18,7 +18,7 @@
          <div class="list2">
              <label for="repeatLocais"> Local: </label>
              <select style="width: 70%" name="repeatLocais" id="repeatLocal" ng-model="local">
-               <option ng-repeat="local in locais" value="{{local.code}}">{{local.name}}</option>
+               <option ng-repeat="local in locais" value="{{local.code}}">{{local.name}} - <div style="float: right">{{local.code}}</div></option>
              </select>
          </div>  
          </center>
