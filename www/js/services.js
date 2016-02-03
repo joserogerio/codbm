@@ -181,10 +181,134 @@ angular.module('starter.services', ['starter.config'])
 				return DB.fetchAll(result);
 			});        
       }
-      
       return self;
    })
+ 
+ 
+   .factory('GrupoService', function(DB, APP){
+      var self= this;
+      
+      self.all= function(){
+         var sql = "SELECT * "+
+			          "FROM _group ";	
+			return DB.query(sql)
+			.then(function(result){
+				return DB.fetchAll(result);
+			});        
+      }
+      return self;
+   })
+	
+	
+   .factory('SubGrupoService', function(DB, APP){
+		var self = this;
+		
+		self.all = function() {
+			var sql = "SELECT * "+
+			          "FROM subgroup "+
+                   "ORDER BY code";
+			return DB.query(sql)
+			.then(function(result){
+				return DB.fetchAll(result);
+			});
+		};
+		
+		self.getById = function(id, all_fields) {
+			//bindings = typeof bindings !== 'undefined' ? bindings : [];
+			all_fields = typeof all_fields !== 'undefined' ? all_fields : false;
+			
+			var sql = "";
+			if( all_fields)
+				sql = "SELECT * ";
+			else 
+				sql = "SELECT id, name ";
+					  
+			sql+= "FROM subgroup "+
+				  "WHERE id = ? ";
+			return DB.query(sql, [id])
+			.then(function(result){
+				return DB.fetch(result);
+			});
+		};
+
+		self.getBySubGrupoId = function(group_id, all_fields){
+			all_fields = typeof all_fields !== 'undefined' ? all_fields : false;
+			
+			
+			var sql = "";
+			if( all_fields)
+				sql = "SELECT * ";
+			else 
+				sql = "SELECT * ";
+					  
+			sql+= "FROM subgroup "+
+				  "WHERE group_id = ? "+
+              "ORDER BY code ";
+         console.log(sql+group_id);
+			return DB.query(sql, [group_id])
+			.then(function(result){
+				return DB.fetchAll(result);
+			});
+		}
+		
+		return self;
+	})
+	
    
+   .factory('NaturezaService', function($http, DB, APP){
+		var self = this;
+		
+		self.all = function() {
+			var sql = "SELECT * "+
+			          "FROM natureza "+
+                   "ORDER BY code";
+			return DB.query(sql)
+			.then(function(result){
+				return DB.fetchAll(result);
+			});
+		};
+		
+		self.getById = function(id, all_fields) {
+			//bindings = typeof bindings !== 'undefined' ? bindings : [];
+			all_fields = typeof all_fields !== 'undefined' ? all_fields : false;
+			
+			var sql = "";
+			if( all_fields)
+				sql = "SELECT * ";
+			else 
+				sql = "SELECT id, name ";
+					  
+			sql+= "FROM natureza "+
+				  "WHERE id = ? ";
+			return DB.query(sql, [id])
+			.then(function(result){
+				return DB.fetch(result);
+			});
+		};
+
+		self.getByNaturezaId = function(subgroup_id, all_fields){
+			all_fields = typeof all_fields !== 'undefined' ? all_fields : false;
+			
+			
+			var sql = "";
+			if( all_fields)
+				sql = "SELECT * ";
+			else 
+				sql = "SELECT * ";
+					  
+			sql+= "FROM natureza "+
+				  "WHERE subgroup_id = ? "+
+              "ORDER BY code ";
+         console.log(sql+subgroup_id);
+			return DB.query(sql, [subgroup_id])
+			.then(function(result){
+				return DB.fetchAll(result);
+			});
+		}
+		
+		return self;
+	})
+	
    
    .factory('TmpService', function(){
       var self = this;
@@ -201,6 +325,7 @@ angular.module('starter.services', ['starter.config'])
       
       return self;
    })
+   
    
    .factory('UpdateService', function(DB, APP){
       var self = this;
@@ -291,3 +416,5 @@ angular.module('starter.services', ['starter.config'])
       
       return this;
    });
+   
+   
