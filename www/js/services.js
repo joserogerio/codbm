@@ -46,7 +46,7 @@ angular.module('starter.services', ['starter.config'])
          //Get version
          sql= "SELECT version FROM configuration";
          self.query(sql).then(function(result){
-            console.log(result.rows.item(0).version);
+            //console.log(result.rows.item(0).version);
             self.version= result.rows.item(0).version;
          });
 		};
@@ -159,7 +159,7 @@ angular.module('starter.services', ['starter.config'])
 			sql+= "FROM local "+
 				  "WHERE type_id = ? "+
               "ORDER BY code ";
-         console.log(sql+type_id);
+         //console.log(sql+type_id);
 			return DB.query(sql, [type_id])
 			.then(function(result){
 				return DB.fetchAll(result);
@@ -245,7 +245,7 @@ angular.module('starter.services', ['starter.config'])
 			sql+= "FROM subgroup "+
 				  "WHERE group_id = ? "+
               "ORDER BY code ";
-         console.log(sql+group_id);
+         //console.log(sql+group_id);
 			return DB.query(sql, [group_id])
 			.then(function(result){
 				return DB.fetchAll(result);
@@ -300,7 +300,7 @@ angular.module('starter.services', ['starter.config'])
 			sql+= "FROM natureza "+
 				  "WHERE subgroup_id = ? "+
               "ORDER BY code ";
-         console.log(sql+subgroup_id);
+         //console.log(sql+subgroup_id);
 			return DB.query(sql, [subgroup_id])
 			.then(function(result){
 				return DB.fetchAll(result);
@@ -319,7 +319,7 @@ angular.module('starter.services', ['starter.config'])
          var i;
          for( i=0; i < quant; i++){
             hash  = new Date().getTime();
-            console.log(hash);        
+            //console.log(hash);        
          }
          
       }
@@ -351,7 +351,7 @@ angular.module('starter.services', ['starter.config'])
             jsonp: "callback",
             jsonpCallback: "localJsonpCallback",
             success: function (data) {
-               console.log(JSON.stringify(data));
+               //console.log(JSON.stringify(data));
                
                var version_web;
 
@@ -364,11 +364,11 @@ angular.module('starter.services', ['starter.config'])
                return version_web;     
             },
             error: function (xhr, ajaxOptions, thrownError) {
-               console.log('on error!');
+               /*console.log('on error!');
                console.log("xhr.status: " + xhr.status);
                console.log("xhr.statusText: " + xhr.statusText);
                console.log("xhr.readyState: " + xhr.readyState);
-               console.log("xhr.redirect: " + xhr.redirect);
+               console.log("xhr.redirect: " + xhr.redirect);*/
                return 0;
             }
          });         
@@ -400,12 +400,12 @@ angular.module('starter.services', ['starter.config'])
                   if( data[i].version > DB.version)
                   {
                      DB.query(data[i].sql);
-                     console.log(data[i].sql);
+                     //console.log(data[i].sql);
                      
                      sql= "UPDATE configuration SET version = '"+data[i].version+"'; ";
                      DB.query(sql);
                      DB.version = data[i].version;
-                     console.log(sql);
+                     //console.log(sql);
                   }                  
                }   
             },
