@@ -23,12 +23,48 @@ angular.module('starter.controllers', [])
       $scope.types= types;
    });  
     
-    $scope.selectType= function(){
+   $scope.selectType= function(){
       LocalService.getByTypeId($scope.type_id).then(function(locais){
          $scope.locais= locais;
       });
       $scope.local= null;
-    };
+   }
+})
+
+.controller('NaturezaCtrl', function($scope, APP, GrupoService, SubGrupoService, NaturezaService){
+    $scope.naturezas = [];
+    $scope.natureza = null;
+	$scope.subgrupos = [];
+	$scope.subgrupo_id = null;
+	$scope.grupos = [];
+	$scope.grupo_id = null;
+	
+    GrupoService.all().then(function(grupos){
+       $scope.grupos= grupos;
+    });
+	
+	SubGrupoService.all().then(function(subgrupos){
+		$scope.subgrupos= subgrupos;
+	});
+	
+	NaturezaService.all().then(function(naturezas){
+		$scope.naturezas= naturezas;
+	});
+	
+	$scope.selectGrupo= function(){
+		SubGrupoService.getBySubGrupoId($scope.grupo_id).then(function(subgrupos){
+			$scope.subgrupos= subgrupos;
+		});
+		$scope.subgrupo_id= null;
+	}
+
+	$scope.selectSubGrupo= function(){
+		NaturezaService.getByNaturezaId($scope.subgrupo_id).then(function(naturezas){
+			$scope.naturezas= naturezas;
+		});
+		$scope.natureza_id= null;
+	}
+	
 })
 
 
