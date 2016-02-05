@@ -56,6 +56,7 @@ angular.module('starter.controllers', [])
 			$scope.subgrupos= subgrupos;
 		});
 		$scope.subgrupo_id= null;
+      $scope.natureza= null;
 	}
 
 	$scope.selectSubGrupo= function(){
@@ -63,6 +64,7 @@ angular.module('starter.controllers', [])
 			$scope.naturezas= naturezas;
 		});
 		$scope.natureza_id= null;
+      $scope.natureza= null;
 	}
 	
 })
@@ -77,7 +79,7 @@ angular.module('starter.controllers', [])
       var version_web = UpdateService.verifyNewVersion();
       var version_app = DB.version;
       
-      console.log(DB.version);
+      //console.log(DB.version);
       if( !version_web )
          APP.showAlert("Problemas ao verificar atualização!");
       else{

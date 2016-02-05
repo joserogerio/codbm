@@ -20,12 +20,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       if(window.StatusBar) {
          StatusBar.styleDefault();
       }
-      if(!DB.production){
-                      
-    
-             
-         console.log('teste');
-      }
       DB.init();
       $location.path('/app/home');
   });
