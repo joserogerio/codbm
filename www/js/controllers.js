@@ -28,7 +28,7 @@ angular.module('starter.controllers', [])
          $scope.locais= locais;
       });
       $scope.local= null;
-    }
+    };
 })
 
 

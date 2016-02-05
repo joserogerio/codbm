@@ -21,11 +21,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
          StatusBar.styleDefault();
       }
       if(!DB.production){
-         DB.init();    
+                      
     
              
          console.log('teste');
       }
+      DB.init();
       $location.path('/app/home');
   });
 })

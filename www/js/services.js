@@ -23,7 +23,7 @@ angular.module('starter.services', ['starter.config'])
 	.factory('DB', function($q, DB_CONFIG, APP, TmpService) {
 		var self = this;
 		self.db = null;
-		self.production = false;
+		self.production = true;
 		self.version;
       
 		self.init = function() {
@@ -121,7 +121,7 @@ angular.module('starter.services', ['starter.config'])
 		self.all = function() {
 			var sql = "SELECT * "+
 			          "FROM local "+
-                   "ORDER BY code";
+                   "ORDER BY code ";
 			return DB.query(sql)
 			.then(function(result){
 				return DB.fetchAll(result);
