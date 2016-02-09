@@ -43,14 +43,15 @@ angular.module('starter.controllers', [])
        $scope.grupos= grupos;
     });
 	
-	SubGrupoService.all().then(function(subgrupos){
+/*	SubGrupoService.all().then(function(subgrupos){
 		$scope.subgrupos= subgrupos;
 	});
 	
 	NaturezaService.all().then(function(naturezas){
 		$scope.naturezas= naturezas;
 	});
-	
+	*/
+   
 	$scope.selectGrupo= function(){
 		SubGrupoService.getBySubGrupoId($scope.grupo_id).then(function(subgrupos){
 			$scope.subgrupos= subgrupos;

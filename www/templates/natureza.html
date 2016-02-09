@@ -9,7 +9,7 @@
          <div style="margin:0 auto;">
              <label style="font-size: large" for="repeatGrupos">GRUPO: </label>
              <br/>
-             <select style="width: 90%; height:40px; font-size: large;" name="repeatGrupos" id="repeatGrupo" ng-model="grupo_id" ng-change="selectGrupo()">
+             <select style="width: 90%; height:40px; font-size: medium;" name="repeatGrupos" id="repeatGrupo" ng-model="grupo_id" ng-change="selectGrupo()">
                 <option ng-repeat="grupo in grupos" value="{{grupo.id}}">{{grupo.name}}</option>
              </select>
          </div>
@@ -20,7 +20,7 @@
          <div style="margin:0 auto;">
              <label style="font-size: large" for="repeatSubGrupos">SUBGRUPO:</label>
              <br/>
-             <select style="width: 90%;  height:40px; font-size: large;" name="repeatSubGrupos" id="repeatSubGrupo" ng-model="subgrupo_id" ng-change="selectSubGrupo()">
+             <select style="width: 90%;  height:40px; font-size: medium;" name="repeatSubGrupos" id="repeatSubGrupo" ng-model="subgrupo_id" ng-change="selectSubGrupo()">
                <option ng-repeat="subgrupo in subgrupos" value="{{subgrupo.id}}">{{subgrupo.name}}</option>
              </select>
          </div>  
@@ -31,7 +31,7 @@
          <div style="margin:0 auto;">
              <label style="font-size: large" for="repeatNaturezas">NATUREZA:</label>
              <br/>
-             <select style="width: 90%;  height:40px; font-size: large;" name="repeatNaturezas" id="repeatNatureza" ng-model="natureza">
+             <select style="width: 90%;  height:40px; font-size: medium;" name="repeatNaturezas" id="repeatNatureza" ng-model="natureza">
                <option ng-repeat="natureza in naturezas" value="{{natureza.code}}">{{natureza.name}} - <div style="float: right">{{natureza.code}}</div></option>
              </select>
          </div>  

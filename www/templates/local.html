@@ -1,15 +1,15 @@
 <ion-view title="LOCAL" style="background-color: #FF4500">
    <ion-nav-buttons side="left">
-      <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
+      <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
    </ion-nav-buttons>
    
-   <ion-content class="has-header">
+   <ion-content class="padding  scroll-bg">
       <div ng-app="app" ng-controller="LocalCtrl"> 
       <div  style="padding: 5px;">
          <div style="margin:0 auto;">
              <label style="font-size: x-large" for="repeatTypes">TIPO: </label>
              <br/>
-             <select style="width: 90%; height:40px; font-size: large;" name="repeatTypes" id="repeatType" ng-model="type_id" ng-change="selectType()">
+             <select style="width: 90%; height:40px; font-size: medium;" name="repeatTypes" id="repeatType" ng-model="type_id" ng-change="selectType()">
                <option ng-repeat="type in types" value="{{type.id}}">{{type.name}}</option>
              </select>
          </div>
@@ -20,7 +20,7 @@
          <div style="margin:0 auto;">
              <label style="font-size: x-large" for="repeatLocais"> LOCAL: </label>
              <br/>
-             <select style="width: 90%; height:40px; font-size: large;" name="repeatLocais" id="repeatLocal" ng-model="local">
+             <select style="width: 90%; height:40px; font-size: medium;" name="repeatLocais" id="repeatLocal" ng-model="local">
                <option ng-repeat="local in locais"  value="{{local.code}}">{{local.name}} - <div style="float: right">{{local.code}}</div></option>
              </select>
          </div>  
