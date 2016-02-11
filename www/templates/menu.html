@@ -8,29 +8,32 @@
   </ion-pane>
 
   <ion-side-menu side="left">
-    <header class="bar bar-header bar-stable">
-      <h1 class="title">CODBM</h1>
-    </header>
-    <ion-content class="has-header">
-      <ion-list>
-        <ion-item nav-clear menu-close href="#/app/natureza">
-          Natureza
-        </ion-item>
+      <header class="bar bar-header bar-assertive">
+         <h1 class="title">CODBM</h1>
+      </header>
+      <ion-content class="has-header">
+         <ion-list>
+            <ion-item nav-clear menu-close href="#/app/natureza">
+               <i class="icon ion-ios-medkit-outline"></i>
+               Natureza
+            </ion-item>
 
-        <ion-item nav-clear menu-close href="#/app/local">
-            Local
-        </ion-item>		
-        
+            <ion-item nav-clear menu-close href="#/app/local">
+               <i class="icon ion-map"></i>
+               Local
+            </ion-item>		
+           
 
-		<ion-item nav-clear menu-close href="#/app/about">
-			Sobre
-		</ion-item>		
-		
-		<ion-item nav-clear menu-close ng-click="closeApp()">
-			Fechar
-		</ion-item>	
-		
-      </ion-list>
-    </ion-content>
-  </ion-side-menu>
+            <ion-item nav-clear menu-close href="#/app/about">
+               <i class="icon ion-ios-pricetags-outline"></i>
+               Sobre
+            </ion-item>		
+         
+            <ion-item nav-clear menu-close ng-click="closeApp()">
+               <i class="icon ion-ios-close-outline"></i>
+               Fechar
+            </ion-item>			
+         </ion-list>
+      </ion-content>
+   </ion-side-menu>
 </ion-side-menus>

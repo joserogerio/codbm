@@ -1,22 +1,27 @@
 ﻿<ion-view title="SOBRE">
-	<ion-nav-buttons side="left">
-		<button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
-	</ion-nav-buttons>
+   <ion-nav-bar class="bar-assertive">
+     <ion-nav-back-button></ion-nav-back-button>
+   </ion-nav-bar>
 	<ion-content class="has-header">
 	<div ng-app="app" > <!--ng-controller="NewExerciseCtrl">--> 
       <br/>
 	    <center>
          <figure>
-			<img src="img/brothers.jpg" style= "width:40%; height:70%;" />
+			<img src="img/brothers.jpg" width="60%">
          <figcaption>SALT 126 (SD ROGÉRIO) e 127 (SD RENATO) <br/>joserogerio.santos@gmail.com <br/> renatoferreira.fds@gmail.com</figcaption>
          </figure>
 		</center>
 		<br/>
-		<center>
-         <button class="button button-full button-positive" style="width: 70%" ng-click="verifyUpdate()">
-			VERIFICAR ATUALIZAÇÃO
-         </button>
-      </center>
-</div>
+      
+      <!--<div class="bar bar-footer bar-assertive">-->
+         <div class="list">
+            <a class="item item-icon-left item-icon-right" ng-click="verifyUpdate()" href="#">
+               <i class="icon ion-ios-cloud-download-outline"></i>          
+                  VERIFICAR ATUALIZAÇÃO
+               <i class="icon ion-ios-loop"></i>
+            </a>    
+         </div>
+      <!--</div>-->
+   </div>
 </ion-content>
 </ion-view>

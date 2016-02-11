@@ -21,7 +21,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
          StatusBar.styleDefault();
       }
       DB.init();
-      $location.path('/app/home');
+      //$location.path('/app/home');
   });
 })
 
@@ -73,4 +73,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 			}
 		}
 	});
+   
+   $urlRouterProvider.otherwise("/app/home");
 });

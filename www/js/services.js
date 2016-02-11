@@ -33,7 +33,7 @@ angular.module('starter.services', ['starter.config'])
          }
 			else{
 				self.db = window.openDatabase(DB_CONFIG.name, '1.0', 'database', -1);
-            APP.url= "http://localhost/alturaRunningSite/";
+            APP.url= "http://localhost/alturaRunningSite";
          }
 	 
          self.createDB();
@@ -328,11 +328,12 @@ angular.module('starter.services', ['starter.config'])
    })
    
    
-   .factory('UpdateService', function(DB, APP){
+   .factory('UpdateService', function(DB, APP, $q){
       var self = this;
       var queries= [];  
       
       self.verifyNewVersion= function(){
+         var deferred = $q.defer();
          var my_url = APP.url+"/webservice_codbm.php";
          var item = {};
          item.function = 'verifyNewVersion';         
@@ -361,7 +362,7 @@ angular.module('starter.services', ['starter.config'])
 
                   //window.localStorage.setItem("version",JSON.stringify(version));
                }
-               return version_web;     
+               return deferred.resolve(version_web);     
             },
             error: function (xhr, ajaxOptions, thrownError) {
                /*console.log('on error!');
@@ -369,7 +370,7 @@ angular.module('starter.services', ['starter.config'])
                console.log("xhr.statusText: " + xhr.statusText);
                console.log("xhr.readyState: " + xhr.readyState);
                console.log("xhr.redirect: " + xhr.redirect);*/
-               return 0;
+               deferred.reject(0);
             }
          });         
       }

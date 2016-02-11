@@ -77,7 +77,10 @@ angular.module('starter.controllers', [])
 
 .controller('AboutCtrl', function($scope, $ionicPopup, APP, DB, UpdateService){
    $scope.verifyUpdate= function(){
-      var version_web = UpdateService.verifyNewVersion();
+      var version_web;
+      UpdateService.verifyNewVersion().then(function(result){
+         version_web= result;
+      });
       var version_app = DB.version;
       
       //console.log(DB.version);
