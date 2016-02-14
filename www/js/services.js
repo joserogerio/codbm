@@ -33,7 +33,7 @@ angular.module('starter.services', ['starter.config'])
          }
 			else{
 				self.db = window.openDatabase(DB_CONFIG.name, '1.0', 'database', -1);
-            APP.url= "http://localhost/alturaRunningSite";
+            //APP.url= "http://localhost/alturaRunningSite";
          }
 	 
          self.createDB();
@@ -328,13 +328,24 @@ angular.module('starter.services', ['starter.config'])
    })
    
    
-   .factory('UpdateService', function(DB, APP, $q){
+   .factory('UpdateService', function(DB, APP, $q, $ionicPopup, $ionicLoading){
       var self = this;
       var queries= [];  
+      
+      self.show = function(message) {
+       $ionicLoading.show({
+         template: "<p>"+message+"</p> <ion-spinner icon='lines'></ion-spinner>"
+       });
+      };
+
+      self.hide = function(){
+       $ionicLoading.hide();
+      };      
       
       self.verifyNewVersion= function(){
          var deferred = $q.defer();
          var my_url = APP.url+"/webservice_codbm.php";
+         var version_app = DB.version;
          var item = {};
          item.function = 'verifyNewVersion';         
          $.ajaxSetup({
@@ -342,7 +353,8 @@ angular.module('starter.services', ['starter.config'])
                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
             }
          });
-
+         
+         self.show('Buscando atualizações...');
          $.ajax({
             url: my_url,
             type: 'POST',
@@ -355,13 +367,37 @@ angular.module('starter.services', ['starter.config'])
                //console.log(JSON.stringify(data));
                
                var version_web;
-
-               for(var i = 0; i < data.length; i++)
-               {
-                  version_web = data[i].version;
-
-                  //window.localStorage.setItem("version",JSON.stringify(version));
+               version_web = data[0].version;
+               //console.log(version_web);
+               
+               if( !version_web ){           
+                  self.hide();
+                  APP.showAlert("Problemas ao verificar atualização!");
                }
+               else{
+                  self.hide();
+                  if( version_app < version_web){
+                     //console.log("Versão app: "+version_app);
+                     //console.log("Versão web: "+version_web);
+                     
+                     var confirmPopup = $ionicPopup.confirm({
+                        title: APP.name,
+                        template: 'Há uma atualização disponível, deseja atualizar?'
+                     });
+                     
+                     confirmPopup.then(function(res) {
+                        if(res) {
+                           self.show('Atualizando...');
+                           self.update();
+                           self.hide();
+                        }
+                     });   
+                  }
+                  else
+                  {
+                     APP.showAlert("Não há atualizações!");
+                  }
+               }               
                return deferred.resolve(version_web);     
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -370,9 +406,11 @@ angular.module('starter.services', ['starter.config'])
                console.log("xhr.statusText: " + xhr.statusText);
                console.log("xhr.readyState: " + xhr.readyState);
                console.log("xhr.redirect: " + xhr.redirect);*/
+               self.hide();
                deferred.reject(0);
             }
          });         
+      
       }
         
       
@@ -409,6 +447,7 @@ angular.module('starter.services', ['starter.config'])
                      //console.log(sql);
                   }                  
                }   
+               APP.showAlert("Atualizado com sucesso!");
             },
             error: function (xhr, ajaxOptions, thrownError) {
                APP.showAlert("Erro ao baixar atualizações!");

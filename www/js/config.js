@@ -53,7 +53,7 @@ angular.module('starter.config', [])
       }
     ],
    inserts: [
-      {value: "INSERT INTO configuration(version) VALUES('201602051444');"},
+      {value: "INSERT INTO configuration(version) VALUES('201601301425');"},
       {value: "INSERT INTO type(id, name, code) VALUES(1453722786317,'LOGRADOURO PÚBLICO','1'),"+
                "(1453722809795,'MEIO AQUÁTICO','2'),"+
                "(1453722821518,'VEGETAÇÃO','3'),"+
