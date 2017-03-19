@@ -5,7 +5,7 @@ angular.module('starter.controllers', [])
   $scope.closeApp= function() {
     //$scope.modal.hide();
 	navigator.app.exitApp();
-  };   
+  };
 })
 
 
@@ -14,15 +14,15 @@ angular.module('starter.controllers', [])
     $scope.local = null;
     $scope.types = [];
     $scope.type_id = null;
-	
+
    LocalService.all().then(function(locais){
        $scope.locais= locais;
     });
-    
+
    TypeService.all().then(function(types){
       $scope.types= types;
-   });  
-    
+   });
+
    $scope.selectType= function(){
       LocalService.getByTypeId($scope.type_id).then(function(locais){
          $scope.locais= locais;
@@ -38,20 +38,20 @@ angular.module('starter.controllers', [])
 	$scope.subgrupo_id = null;
 	$scope.grupos = [];
 	$scope.grupo_id = null;
-	
+
     GrupoService.all().then(function(grupos){
        $scope.grupos= grupos;
     });
-	
+
 /*	SubGrupoService.all().then(function(subgrupos){
 		$scope.subgrupos= subgrupos;
 	});
-	
+
 	NaturezaService.all().then(function(naturezas){
 		$scope.naturezas= naturezas;
 	});
 	*/
-   
+
 	$scope.selectGrupo= function(){
 		SubGrupoService.getBySubGrupoId($scope.grupo_id).then(function(subgrupos){
 			$scope.subgrupos= subgrupos;
@@ -67,7 +67,7 @@ angular.module('starter.controllers', [])
 		$scope.natureza_id= null;
       $scope.natureza= null;
 	}
-	
+
 })
 
 
@@ -78,9 +78,9 @@ angular.module('starter.controllers', [])
 .controller('AboutCtrl', function($scope, $ionicPopup, APP, DB, UpdateService){
    $scope.verifyUpdate= function(){
       var version_web;
-      UpdateService.verifyNewVersion();
+      //UpdateService.verifyNewVersion();
       /*var version_app = DB.version;
-      
+
       //console.log(DB.version);
       if( !version_web )
          APP.showAlert("Problemas ao verificar atualização!");
@@ -94,18 +94,18 @@ angular.module('starter.controllers', [])
          }
       }*/
    }
-   
-   
+
+
    update = function(){
 		var confirmPopup = $ionicPopup.confirm({
 			title: APP.name,
 			template: 'Há uma atualização disponível, deseja atualizar?'
 		});
-	   
+
 		confirmPopup.then(function(res) {
 			if(res) {
             UpdateService.update();
          }
-      });         
+      });
    }
 });
