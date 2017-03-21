@@ -26,7 +26,7 @@ angular.module('starter.config', [])
                 {name: 'name', type: 'text'},
                 {name: 'code', type: 'text'}
             ]
-      },        
+      },
 		{
             name: 'subgroup',
             columns: [
@@ -35,7 +35,7 @@ angular.module('starter.config', [])
                 {name: 'group_id', type: 'integer'},
                 {name: 'code', type: 'text'}
             ]
-        },        
+        },
 		{
 			name: 'natureza',
 			columns: [
@@ -43,7 +43,7 @@ angular.module('starter.config', [])
 				{name: 'name', type: 'text'},
 				{name: 'subgroup_id', type: 'integer'},
 				{name: 'code', type: 'text'}
-			]		
+			]
 		},
       {
          name: 'configuration',
@@ -53,7 +53,7 @@ angular.module('starter.config', [])
       }
     ],
    inserts: [
-      {value: "INSERT INTO configuration(version) VALUES('201601301425');"},
+      {value: "INSERT INTO configuration(version) VALUES('201703211900');"},
       {value: "INSERT INTO type(id, name, code) VALUES(1453722786317,'LOGRADOURO PÚBLICO','1'),"+
                "(1453722809795,'MEIO AQUÁTICO','2'),"+
                "(1453722821518,'VEGETAÇÃO','3'),"+
@@ -527,10 +527,10 @@ angular.module('starter.config', [])
 
       "(1454182296591,'DUPLICIDADE DE OCORRÊNCIA BM',1453924252584,'100101'), "+
       "(1454182296617,'FALSO AVISO DE OCORRÊNCIA / TROTE',1453924252584,'100102'), "+
-      "(1454182296618,'AVISO DE OCORRÊNCIA FALSA / ENGANO',1453924252584,'100203'), "+
+      "(1454182296618,'AVISO DE OCORRÊNCIA FALSA / ENGANO',1453924252584,'100103'), "+
 
       "(1454182296619,'ENCAMINHADA - SERVIÇOS DE EMERGÊNCIA',1453924252586,'100201'), "+
       "(1454182296620,'ENCAMINHADA - SERVIÇOS DE SALVAMENTO/INCÊNDIO',1453924252586,'100202'), "+
       "(1454182296621,'ENCAMINHADA - DEFESA CIVIL MUNICIPAL',1453924252586,'100203');"}
-    ]      
+    ]
 });
