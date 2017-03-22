@@ -22,9 +22,11 @@ angular.module('starter.services', ['starter.config'])
 
 	.factory('DB', function($q, DB_CONFIG, APP, TmpService) {
 		var self = this;
+        var sql = "";
 		self.db = null;
+		//TODO: setar para true em produção
 		self.production = true;
-		self.version;
+		self.version= "";
 
 		self.init = function() {
 			// Use
@@ -78,7 +80,7 @@ angular.module('starter.services', ['starter.config'])
 			  var query = 'DROP TABLE ' + table.name + ';';
 			  self.query(query);
 		  });
-	  }
+	  };
 
       self.populate = function(queries){
          var query = "SELECT COUNT(*) AS quant FROM type ";
@@ -125,7 +127,7 @@ angular.module('starter.services', ['starter.config'])
 
 		self.getNumberRows= function(result){
 			return result.rows.length;
-		}
+		};
 
 		return self;
 	})
@@ -180,7 +182,7 @@ angular.module('starter.services', ['starter.config'])
 			.then(function(result){
 				return DB.fetchAll(result);
 			});
-      }
+      };
 
 		return self;
 	})
@@ -196,7 +198,7 @@ angular.module('starter.services', ['starter.config'])
 			.then(function(result){
 				return DB.fetchAll(result);
 			});
-      }
+      };
       return self;
    })
 
@@ -212,9 +214,9 @@ angular.module('starter.services', ['starter.config'])
 			.then(function(result){
 				return DB.fetchAll(result);
 			});
-      }
+      };
       return self;
-   })
+  	})
 
 
    .factory('SubGrupoService', function(DB, APP){
@@ -266,7 +268,7 @@ angular.module('starter.services', ['starter.config'])
 			.then(function(result){
 				return DB.fetchAll(result);
 			});
-		}
+		};
 
 		return self;
 	})
@@ -321,7 +323,7 @@ angular.module('starter.services', ['starter.config'])
 			.then(function(result){
 				return DB.fetchAll(result);
 			});
-		}
+		};
 
 		return self;
 	})
@@ -337,11 +339,10 @@ angular.module('starter.services', ['starter.config'])
             hash  = new Date().getTime();
             //console.log(hash);
          }
-
-      }
+      };
 
       return self;
-   })
+  	})
 
 
    .factory('UpdateService', function(DB, APP, $q, $ionicPopup, $ionicLoading){
@@ -426,13 +427,13 @@ angular.module('starter.services', ['starter.config'])
                deferred.reject(0);
             }
          });
-
       }
 
 
       self.update= function(){
          var my_url = APP.url+"/webservice_codbm.php";
          var item = {};
+         var sql = "";
          item.function = 'getQueries';
 
          $.ajaxSetup({
@@ -469,7 +470,7 @@ angular.module('starter.services', ['starter.config'])
                APP.showAlert("Erro ao baixar atualizações!");
             }
          });
-      }
+      };
 
       return this;
    });
